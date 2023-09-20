@@ -52,7 +52,7 @@ def _component(stage, name):
         cyaml = dump_yaml(cdict)
         return components.load_component_from_text(cyaml)
         
-setup_op = kfp.components.load_component(text = setup_component)
+setup_op = components.load_component(text = setup_component)
 
 @dsl.pipeline(
     name='dkube-regression-pl',
