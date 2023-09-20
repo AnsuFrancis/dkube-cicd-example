@@ -45,6 +45,25 @@ implementation:
     ]
 '''
 
+# Get the project ID passed from JupyterLab creation
+project_id = os.environ.get("DKUBE_PROJECT_ID", "")
+
+# Check to see if this is blank, and if so use "clinical-reg"
+if not project_id:
+    project_name = "clinical-reg"
+    DKUBE_URL = "https://dkube-proxy.dkube:443"
+    DKUBE_TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc0YmNkZjBmZWJmNDRiOGRhZGQxZWIyOGM2MjhkYWYxIn0.eyJ1c2VybmFtZSI6Im9jZGt1YmUiLCJyb2xlIjoiZGF0YXNjaWVudGlzdCxtbGUscGUsb3BlcmF0b3IiLCJkZXBsb3kiOmZhbHNlLCJleHAiOjQ5MzAwOTc0ODUsImlhdCI6MTY5MDA5NzQ4NSwiaXNzIjoiRGt1YmUifQ.3oVnUtFZaBZrXnZr2a5SnftJvXYjn3ZtbGnoNy31CBXgDS7CFZ8ldxvqLlkd8xCXAO5S6Fz2LEYhp3D1zEybuTqwVFVqwRTXe8CnuN1iz_UT4Gj6XZuNqZ29_XK0kjc_X86jx0-fLUVhk6sWpulFR_q6lyjVm63zi3oAD74sVtl-Cvi4MHYrBXNV_eb3dliwsyBneM1VyOXsPX13XvRogdDkQAf22p_hDO3TjVEo7wmx_b4VoEIvY-Vl3Qr0An7drXHT5sBejFjRXxB_0vuAii1AJh66QoLVgXal6g9dMvmpCXZ9K4g09QbUg1c1_VP-VO-Rh189BzIDyp34dMcrGQ"
+    api = DkubeApi(URL=DKUBE_URL,token=DKUBE_TOKEN)
+
+    # If "clinical-reg" already exists, just get the project ID
+    try:
+        project = DkubeProject(project_name)
+        res = api.create_project(project)
+    except Exception as e:
+        if e.reason.lower()=="conflict":
+            print(f"Project \"{project_name}\" already exists")
+            project_id = api.get_project_id(project_name)
+
 def _component(stage, name):
     with open('kubeflow/components/{}/component.yaml'.format(stage), 'rb') as stream:
         cdict = load_yaml(stream)
