@@ -138,6 +138,7 @@ def d3pipeline(
     
     #Serving
     #Device to be used for serving - dkube mnist example trained on gpu needs gpu for serving else set this param to 'cpu'
+    deployment_name='regression-pl',
     serving_device='cpu',
     #Serving image
     serving_image=json.dumps({'image':'ocdr/tensorflowserver:2.3.0'}),
