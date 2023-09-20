@@ -1,8 +1,10 @@
 components:
   path: kubeflow/components
   components:
-    - name: my_add
-    - name: my_divide
+    - name: preprocess
+    - name: training
+    - name: serving
+    - name: viewer
 
 pipelines:
   path: kubeflow/pipeline
