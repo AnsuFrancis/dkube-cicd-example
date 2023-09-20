@@ -67,6 +67,7 @@ if not project_id:
         if e.reason.lower()=="conflict":
             print(f"Project \"{project_name}\" already exists")
             project_id = api.get_project_id(project_name)
+            print(project_id)
 
 def _component(stage, name):
     with open('kubeflow/components/{}/component.yaml'.format(stage), 'rb') as stream:
