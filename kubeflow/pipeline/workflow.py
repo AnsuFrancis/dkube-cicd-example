@@ -19,6 +19,8 @@ from kfp.components._yaml_utils import load_yaml
 from kfp.components._yaml_utils import dump_yaml
 from kubernetes import client as k8s_client
 import json
+import os
+from dkube.sdk import *
 
 setup_component = '''
 name: create_dkube_resource
