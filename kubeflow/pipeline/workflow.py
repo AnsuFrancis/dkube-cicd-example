@@ -57,6 +57,7 @@ if not project_id:
     project_name = "clinical-reg"
     DKUBE_URL = "https://dkube-proxy.dkube:443"
     DKUBE_TOKEN = os.environ.get("DKUBE_USER_ACCESS_TOKEN", "")
+    print(DKUBE_TOKEN)
     api = DkubeApi(URL=DKUBE_URL,token=DKUBE_TOKEN)
 
     # If "clinical-reg" already exists, just get the project ID
