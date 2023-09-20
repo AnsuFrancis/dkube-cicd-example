@@ -51,12 +51,13 @@ implementation:
 
 # Get the project ID passed from JupyterLab creation
 project_id = os.environ.get("DKUBE_PROJECT_ID", "")
-
+print("project id")
 # Check to see if this is blank, and if so use "clinical-reg"
 if not project_id:
+    print("inside project id")
     project_name = "clinical-reg"
     DKUBE_URL = "https://dkube-proxy.dkube:443"
-    DKUBE_TOKEN = os.environ.get("DKUBE_USER_ACCESS_TOKEN", "")
+    DKUBE_TOKEN = os.getenv("DKUBE_USER_ACCESS_TOKEN", "")
     print(DKUBE_TOKEN)
     api = DkubeApi(URL=DKUBE_URL,token=DKUBE_TOKEN)
 
