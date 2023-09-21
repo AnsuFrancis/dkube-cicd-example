@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Pipeline workflow definition."""
-import sys
-sys.path.insert(0, "/root/miniconda3/envs/dkube-env/lib/python3.7/site-packages")
+#import sys
+#sys.path.insert(0, "/root/miniconda3/envs/dkube-env/lib/python3.7/site-packages")
 
 import kfp.dsl as dsl
 from kfp import components
