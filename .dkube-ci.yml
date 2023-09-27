@@ -5,3 +5,4 @@ pipelines:
   pipelines:
     - name: workflow.py
       build_image: ocdr/d3cicd:regression
+      run: True
