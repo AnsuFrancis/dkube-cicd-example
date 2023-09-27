@@ -4,15 +4,6 @@ RUN apt-get update -y && DEBIAN_FRONTEND=noninteractive apt-get -y install git p
 
 RUN apt-get install -y python3.7 python3-distutils libpython3.7
 
-#dcc
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python3.7 get-pip.py && \
-    rm get-pip.py && \
-    pip install dkube-cicd-controller==1.6.0 setuptools==66.1.1 && \
-    ln -s /usr/lib/x86_64-linux-musl/libc.so /lib/libc.musl-x86_64.so.1
-
-#kubectl
-RUN curl -LO https://dl.k8s.io/release/v1.20.0/bin/linux/amd64/kubectl
-RUN mv kubectl /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
 
 #conda
 ENV PATH="/root/miniconda3/bin:${PATH}"
@@ -26,11 +17,21 @@ RUN wget \
      && mkdir /root/.conda \
      && bash Miniconda3-latest-Linux-x86_64.sh -b \
      && rm -f Miniconda3-latest-Linux-x86_64.sh
+#install dcc
+COPY dkube_cicd_controller-1.6.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.whl /tmp/
 
-ADD conda_env_regression.yaml .
-RUN conda env create -f conda_env_regression.yaml && \
+ADD conda_env.yaml .
+RUN conda env create -f conda_env.yaml && \
      conda clean -afy && conda init bash && \
-     echo "source activate dkube-env" > ~/.bashrc
+     echo "conda activate dkube-env" >> ~/.bashrc
+
+RUN cp /root/miniconda3/envs/dkube-env/bin/dcc /usr/local/bin/dcc
+RUN cp /root/miniconda3/envs/dkube-env/bin/dsl-compile /usr/local/bin/dsl-compile
+RUN ln -s /usr/lib/x86_64-linux-musl/libc.so /lib/libc.musl-x86_64.so.1
+
+#kubectl
+RUN curl -LO https://dl.k8s.io/release/v1.20.0/bin/linux/amd64/kubectl
+RUN mv kubectl /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
 
 RUN touch /built_using_dockerfile
 ENV PATH=/opt/conda/envs/dkube-env/bin:$PATH
@@ -40,5 +41,3 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/
 RUN chmod +x /usr/bin/tini
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
-
-
