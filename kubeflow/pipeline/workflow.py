@@ -175,7 +175,7 @@ def d3pipeline(
     
     create_resource = setup_op(user = user, token = auth_token, project_id = project_id)
     
-    create_resource.execution_options.caching_strategy.max_cache_staleness = "P0D"
+    #create_resource.execution_options.caching_strategy.max_cache_staleness = "P0D"
     
     clinical_preprocess = _component('preprocess', 'clinical-preprocess')(container=training_container,
                                       tags=tags, program=training_program, run_script=clinical_preprocess_script,
